@@ -1,0 +1,12 @@
+# vim:ft=yaml:ts=2:sw=2:et
+
+name: CI build
+
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build a Docker image
+      run: docker build . --file Dockerfile --tag dockerbuild:latest
