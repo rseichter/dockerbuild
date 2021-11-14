@@ -1,7 +1,7 @@
 # vim:ts=8:sw=8:noet
 
 REGISTRY	:= rseichter
-TAG		:= 2021.0
+TAG		:= latest
 
 HERE		:= $(shell pwd -P)
 IMAGE_PREFIX	:= $(REGISTRY)/dockerbuild
