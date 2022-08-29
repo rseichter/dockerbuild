@@ -1,0 +1,22 @@
+# vim:ft=yaml:ts=2:sw=2:et
+
+image: docker
+services:
+  - docker:dind
+stages:
+  - build
+
+default:
+  before_script:
+    - echo ${CI_BUILD_TOKEN} | docker login --username gitlab-ci-token --password-stdin ${CI_REGISTRY}
+    - if [ -n "${CI_COMMIT_TAG}" ]; then TAG="${CI_COMMIT_TAG}"; else TAG="${CI_COMMIT_SHORT_SHA}"; fi
+  tags:
+    - docker
+
+build_image:
+  stage: build
+  script:
+    - docker build -t ${CI_REGISTRY_IMAGE}:latest -t ${CI_REGISTRY_IMAGE}:${TAG} --no-cache .
+    - docker push ${CI_REGISTRY_IMAGE}:latest
+    - docker push ${CI_REGISTRY_IMAGE}:${TAG}
+  when: manual
